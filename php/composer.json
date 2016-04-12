@@ -1,0 +1,9 @@
+{
+	"require":{
+		"clue/graph": "0.9.*",
+		"graphp/algorithms": "~0.8.0"
+	},
+	"config": {
+		"secure-http": false
+	}
+}

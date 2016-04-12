@@ -1,0 +1,8 @@
+div#indoor-map {
+				border-style: solid solid solid solid;
+				border-color: red;
+				cursor: pointer;
+				width: 800px;
+				height: 600px;
+				background-color: #EEEEEE;
+			}
