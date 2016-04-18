@@ -14,16 +14,21 @@
 	$i = 0;	
 	while (!feof($fp))
 	{
-		$sourcePaths[$i] = fgets($fp, 999);
+		$path = fgets($fp, 999);
+		$sourcePaths[$i] = trim($path);
 		$i++;
 	}
 	fclose($fp);
 	ob_clean();
 	header('Content-type:text/xml');
-	echo "<?xml version=\"1.0\"?><option><floorNum>$floorNum</floorNum><sourcePaths>";
-	foreach ($sourcePaths as $sourcePath)
-	{
-		echo "<sourcePath>$sourcePath</sourcePath>";
+	echo 
+"<?xml version=\"1.0\" ?>
+	<option>
+		<floorNum>$floorNum</floorNum>
+		<sourcePaths>\r\n";
+	foreach ($sourcePaths as $sourcePath) {
+		echo "			<sourcePath>".$sourcePath."</sourcePath>\r\n";
 	}
-	echo "</sourcePaths></option>";
+	echo "		</sourcePaths>
+	</option>";
 ?>
