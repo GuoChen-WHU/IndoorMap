@@ -1,0 +1,62 @@
+/*
+ * im.css
+ * Root namespace styles
+*/
+
+/** Begin reset */
+* {
+  margin  : 0;
+  padding : 0;
+  box-sizing : border-box;
+
+  -moz-user-select: none;
+  user-select: none;
+}
+
+input, textarea {
+  user-select: text;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  margin-bottom : 10px;
+}
+
+ol, ul, dl {
+  list-style-position : inside;
+}
+/** End reset */
+
+/** Begin standrad selectors */
+body {
+  font : 13px 'Trebuchet MS', Verdana, Helvetica, Arial, sans-serif;
+  color            : #444;
+  background-color : #888;
+}
+
+a { 
+  text-decoration : none; 
+}
+a:link, a:visited {
+  color: inherit;
+}
+a:hover {
+  text-decoration: underline;
+}
+/** End standard selectors */
+
+/** Begin im namespace selectors */
+#im {
+  position: absolute;
+  top: .5em;
+  left: .5em;
+  bottom: .5em;
+  right: .5em;
+
+  min-height: 500px;
+  min-width: 500px;
+  overflow: hidden;
+
+  border-radius: 8px;
+  background-color: #fff;
+}
+/** End im namespace selectors */

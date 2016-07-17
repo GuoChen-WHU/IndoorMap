@@ -23,7 +23,7 @@ if (mysqli_connect_error())
 
 //查询得到所有导航点，添加到图里面
 //遍历存储的过程中，顺便计算得到与起止点最近的导航点
-$query = "select * from floor1_pts";
+$query = "select * from floor1_navpts";
 $allPoints = $db->query($query);
 
 $graph = new Graph();

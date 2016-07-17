@@ -1,25 +1,47 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Indoor Map System</title>
-		<script src="js/jquery-1.11.2.min.js"></script>
-		<link rel="stylesheet" href="css/ol.css" type="text/css">
-		<script src="js/ol.js"></script>
-		<link rel="stylesheet" href="css/ol-popup.css" type="text/css">
-		<script src="js/indoormap.js"></script>
-		<link rel="stylesheet" href="css/floorcontrol.css" type="text/css">
-	</head>
-	<body>
-		<div id="map" class="map"></div>
-		<div id="popup" class="ol-popup">
-			<a href="#" id="popup-closer" class="ol-popup-closer"></a>
-			<a href="javascript:void(0)" id="popup-setStartPoint" class="ol-popup-button"></a>
-			<a href="javascript:void(0)" id="popup-setEndPoint" class="ol-popup-button"></a>
-			<div id="popup-content"></div>
-		</div>
+<head>
+  <!-- ie9+ rendering support for latest standards -->
+  <meta http-equiv="Content-Type" content="text/html; charset=utf8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <title>Indoor Map System</title>
+
+  <!-- third-party stylesheets -->
+  <link rel="stylesheet" type="text/css" href="node_modules/openlayers/dist/ol.css">
+
+  <!-- our stylesheets -->
+  <link rel="stylesheet" type="text/css" href="public/css/im.css">
+  <link rel="stylesheet" type="text/css" href="public/css/im.shell.css">
+  <link rel="stylesheet" type="text/css" href="public/css/im.floorcontrol.css">
+  <link rel="stylesheet" type="text/css" href="public/css/im.popup.css">
+  <link rel="stylesheet" type="text/css" href="public/css/im.navigation.css">
+
+  <!-- third-party javascript -->
+  <script type="text/javascript" src="node_modules/jquery/dist/jquery.js"></script>
+  <script type="text/javascript" src="public/js/jquery.event.gevent.js"></script>
+  <script type="text/javascript" src="node_modules/openlayers/dist/ol-debug.js"></script>
+
+  <!-- our javascript -->
+  <script type="text/javascript" src="public/js/im.js"></script>
+  <script type="text/javascript" src="public/js/im.util.js"></script>
+  <script type="text/javascript" src="public/js/im.model.js"></script>
+  <script type="text/javascript" src="public/js/im.shell.js"></script>
+  <script type="text/javascript" src="public/js/im.map.js"></script>
+  <script type="text/javascript" src="public/js/im.floorcontrol.js"></script>
+  <script type="text/javascript" src="public/js/im.popup.js"></script>
+  <script type="text/javascript" src="public/js/im.navigation.js"></script>
+
+  <script type="text/javascript">
+    $(function() { im.initModule( $('#im') ); });
+  </script>
+
+</head>
+<body>
+	<div id="im">
+		
 		<div id="info" class="alert alert-success">
 			&nbsp;
 		</div>
-		<script src="js/qgExample.js"></script>
-	</body>
+	</div>
+</body>
 </html>

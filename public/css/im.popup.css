@@ -1,4 +1,4 @@
-.ol-popup {
+ï»¿.im-popup {
 	position: absolute;
 	background-color: white;
 	-webkit-filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
@@ -8,9 +8,9 @@
 	border: 1px solid #cccccc;
 	bottom: 12px;
 	left: -50px;
-	min-width: 280px;
+	min-width: 180px;
 }
-.ol-popup:after, .ol-popup:before {
+.im-popup:after, .im-popup:before {
 	top: 100%;
 	border: solid transparent;
 	content: " ";
@@ -19,30 +19,24 @@
 	position: absolute;
 	pointer-events: none;
 }
-.ol-popup:after {
+.im-popup:after {
 	border-top-color: white;
 	border-width: 10px;
 	left: 48px;
 	margin-left: -10px;
 }
-.ol-popup:before {
+.im-popup:before {
 	border-top-color: #cccccc;
 	border-width: 11px;
 	left: 48px;
 	margin-left: -11px;
 }
-.ol-popup-closer {
+.im-popup-closer {
 	text-decoration: none;
 	position: absolute;
-	top: 2px;
+	top: 5px;
 	right: 8px;
 }
-.ol-popup-closer:after {
-	content: "X";
-}
-#popup-setStartPoint:after {
-	content: "ÉèÎªÆðµã";
-}
-#popup-setEndPoint:after {
-	content: "ÉèÎªÖÕµã";
+.im-popup-closer:after {
+	content: "Ã—";
 }
