@@ -91,9 +91,6 @@ im.shell = (function () {
     im.navigation.configModule({
       mapModel: im.model.mapModel,
       navModel: im.model.navModel,
-
-      // Because navigation view is attached to popup view, have
-      // to get click position through popup, any solution?
       getPosition: im.popup.getPosition
     });
     im.navigation.initModule( im.popup.getPopupContainer() );

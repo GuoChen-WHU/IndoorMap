@@ -105,7 +105,7 @@ im.navigation = (function () {
   };
 
   /* unused: false */
-  onRouteReady = function ( event, route ) {
+  onRouteReady = function ( route ) {
     displayRoute( route );
   };
   /* unused: true */
@@ -156,7 +156,7 @@ im.navigation = (function () {
     jqueryMap.$end.click( onEndNav );
 
     // Subscribe the route ready event
-    $.gevent.subscribe( $container, 'routeGenerated', onRouteReady );
+    im.util.gevent.listen( 'routeGenerated', onRouteReady );
 
     return true;
   };

@@ -198,7 +198,7 @@ im.map = (function () {
     if ( feature ) {
       highlightFeature( feature );
       panToCoordinate( event.coordinate );
-      $.gevent.publish( 'featureChosen', [ event.coordinate, feature ]);
+      im.util.gevent.trigger( 'featureChosen', event.coordinate, feature );
     }
   };
 
@@ -253,7 +253,7 @@ im.map = (function () {
     configMap.mapModel.on( 'click', onClickMap );
 //    configMap.mapModel.on( 'pointermove', onEnterMap);
 
-    $.gevent.subscribe( $container, 'endChosen', onEndChosen );
+    im.util.gevent.listen( 'endChosen', onEndChosen );
   
     return true;
   };

@@ -14,23 +14,18 @@ module.exports = function (grunt) {
       ]
     },
 
-    // use this to copy all files to build folder, bad idea
     concat: {
       js: {
-        files: {
-          'build/js/im.js'             : 'public/js/im.js',
-          'build/js/im.util.js'        : 'public/js/im.util.js',
-          'build/js/im.shell.js'       : 'public/js/im.shell.js',
-          'build/js/im.model.js'       : 'public/js/im.model.js',
-          'build/js/im.map.js'         : 'public/js/im.map.js',
-          'build/js/im.floorcontrol.js': 'public/js/im.floorcontrol.js'
-        }
+        src: [ 'public/js/im.js', 'public/js/im.util.js',
+            'public/js/im.util.gevent.js', 'public/js/im.model.js', 
+            'public/js/im.shell.js', 'public/js/im.map.js', 
+            'public/js/im.floorcontrol.js', 'public/js/im.popup.js', 
+            'public/js/im.navigation.js'],          
+        dest: 'build/js/bundle.js'
       },
       css: {
         files: {
-          'build/css/im.css'            : 'public/css/im.css',
-          'build/css/im.shell.css'      : 'public/css/im.shell.css',
-          'build/css/im.floorcontrol.css'      : 'public/css/im.floorcontrol.css'
+          'build/css/bundle.css' : 'public/css/*.css'
         }
       }
     },
@@ -39,6 +34,14 @@ module.exports = function (grunt) {
       bundle: {
         files: {
           'build/js/bundle.min.js': 'build/js/bundle.js'
+        }
+      }
+    },
+
+    cssmin: {
+      target: {
+        files: {
+          'build/css/bundle.min.css' : 'build/css/bundle.css'
         }
       }
     },
@@ -70,12 +73,14 @@ module.exports = function (grunt) {
 
   });
 
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-spritesmith');
-  grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks( 'grunt-contrib-jshint' );
+  grunt.loadNpmTasks( 'grunt-contrib-concat' );
+  grunt.loadNpmTasks( 'grunt-contrib-uglify' );
+  grunt.loadNpmTasks( 'grunt-spritesmith' );
+  grunt.loadNpmTasks( 'grunt-contrib-clean' );
+  grunt.loadNpmTasks( 'grunt-contrib-watch' );
+  grunt.loadNpmTasks( 'grunt-contrib-cssmin' );
 
-  grunt.registerTask('debug', 'watch');
+  grunt.registerTask( 'debug', 'watch' );
+  grunt.registerTask( 'release', [ 'clean', 'concat', 'uglify', 'cssmin' ] );
 };

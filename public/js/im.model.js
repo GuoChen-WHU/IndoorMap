@@ -230,7 +230,7 @@ im.model = (function () {
               });
               route.push(segment);
             }
-            $.gevent.publish( 'routeGenerated', [ route ] );
+            im.util.gevent.trigger( 'routeGenerated', route );
           } else {
             throw im.util.makeError( 'Response Error', 
                 'Failed to get navigation information from server!' );

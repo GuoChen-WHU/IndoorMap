@@ -64,10 +64,10 @@ im.popup = (function () {
   onClickCloser = function () {
     stateMap.popup.setPosition( undefined );
 
-    $.gevent.publish( 'endChosen', [] );
+    im.util.gevent.trigger( 'endChosen' );
   };
 
-  onChooseFeature = function ( event, coordinate, feature ) {
+  onChooseFeature = function ( coordinate, feature ) {
     var info = feature.get( 'name' );
 
     jqueryMap.$popupContent.html( info );
@@ -108,7 +108,7 @@ im.popup = (function () {
     createPopup();
 
     // Subscribe global events
-    $.gevent.subscribe( jqueryMap.$popup, 'featureChosen', onChooseFeature );
+    im.util.gevent.listen( 'featureChosen', onChooseFeature );
 
     return true;
   };
@@ -118,6 +118,9 @@ im.popup = (function () {
   return {
     configModule : configModule,
     initModule   : initModule,
+
+    // These two public method are used to let other modules add content
+    // on the popup or use the popup position info.
     getPopupContainer: function () { return jqueryMap.$popup; },
     getPosition  : function () { return stateMap.popup.getPosition(); }
   };

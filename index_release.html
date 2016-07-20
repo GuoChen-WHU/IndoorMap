@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- ie9+ rendering support for latest standards -->
+  <meta http-equiv="Content-Type" content="text/html; charset=utf8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <title>Indoor Map System</title>
+
+  <!-- third-party stylesheets -->
+  <link rel="stylesheet" type="text/css" 
+      href="http://openlayers.org/en/v3.17.1/css/ol.css">
+
+  <!-- our stylesheets -->
+  <link rel="stylesheet" type="text/css" href="build/css/bundle.min.css">
+
+  <!-- third-party javascript -->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script type="text/javascript" 
+      src="http://openlayers.org/en/v3.17.1/build/ol.js"></script>
+
+  <!-- our javascript -->
+  <script type="text/javascript" src="build/js/bundle.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() { im.initModule( $('#im') ); });
+  </script>
+
+</head>
+<body>
+  <div id="im">
+    
+    <div id="info" class="alert alert-success">
+      &nbsp;
+    </div>
+  </div>
+</body>
+</html>
