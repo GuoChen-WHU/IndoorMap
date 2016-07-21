@@ -29,40 +29,16 @@ im.model = (function () {
   // The map object is available at im.model.map.
   // The map object is an extend of ol.Map, it provides methods 
   // and events to manage an indoor map. Its public methods include:
-  //   * get_user() - return the current user person object.
-  //     If the current user is not signed-in, an anonymous person
-  //     object is returned.
-  //   * get_db() - return the TaffyDB database of all the person
-  //     objects - including the current user - presorted.
-  //   * get_by_cid( <client_id> ) - return a person object with
-  //     provided unique id.
-  //   * login( <user_name> ) - login as the user with the provided
-  //     user name. The current user object is changed to reflect
-  //     the new identity. Successful completion of login
-  //     publishes a 'spa-login' global custom event.
-  //   * logout()- revert the current user object to anonymous.
-  //     This method publishes a 'spa-logout' global custom event.
-  //
-  // jQuery global custom events published by the object include:
-  //   * spa-login - This is published when a user login process
-  //     completes. The updated user object is provided as data.
-  //   * spa-logout - This is published when a logout completes.
-  //     The former user object is provided as data.
-  //
-  // Each person is represented by a person object.
-  // Person objects provide the following methods:
-  //   * get_is_user() - return true if object is the current user
-  //   * get_is_anon() - return true if object is anonymous
-  //
-  // The attributes for a person object include:
-  //   * cid - string client id. This is always defined, and
-  //     is only different from the id attribute
-  //     if the client data is not synced with the backend.
-  //   * id - the unique id. This may be undefined if the
-  //     object is not synced with the backend.
-  //   * name - the string name of the user.
-  //   * css_map - a map of attributes used for avatar
-  //     presentation.
+  //   * getFloorNum() - return the number of floors.
+  //   * getFloorIndexes() - return the indexes of floors in the layers
+  //     collection.
+  //   * getFloorName( <index> ) - return the floor name of certain index.
+  //   * getCurrentFloor() - get the current floor displayed in the map.
+  //   * setCurrentFloor( <index> ) - set the current floor, when the  
+  //     index is illegal, throw an error.
+  // 
+  // It's private method include:
+  //   * refreshMap() - get the data from server.
   //
   refreshMap = function () {
     stateMap.map.addLayer( 
@@ -125,10 +101,6 @@ im.model = (function () {
     stateMap.currentFloor = 1;
   };
 
-//  hideExcept = function () {
-
-  //};
-
   // Add methods to map model
   ol.Map.prototype.getFloorNum = function () {
     return this.getLayers().getLength() - 1;
@@ -187,7 +159,17 @@ im.model = (function () {
   // The navigation object API
   // ---------------------
   // The navigation object is available at im.model.navigation.
-  // The navigation object provides functions for navigation.
+  // The navigation object provides methods and events for navigation.
+  // Its public methods include:
+  //   * setStartPoint( coordinate ) - set the start point of navigation.
+  //   * setEndPoint( coordinate ) - set the end point of navigation and
+  //     request to the server for the nav route.
+  //
+  // Its pravite methods include:
+  //   * getRoute() - generate an Ajax request to get the nav route, when
+  //     the route is responsed from the server, publish the global event
+  //     'routeGenerated'.
+  //
   navModel = (function () {
     var
       startPoint, endPoint,

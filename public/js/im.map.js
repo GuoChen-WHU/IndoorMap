@@ -41,36 +41,56 @@ im.map = (function () {
   // End DOM method /setJqueryMap/
 
   setFloorStyle = function( feature, resolution ) {
-    var style;
+    var 
+      style,
 
-    //如果是面类型，需要显示注记
-    if ( feature.getGeometry().getType() === 'Polygon' )
-    {
+      // map of feature class and preset style
+      stylesMap = {
+        boundary: {
+          color: '#000'
+        },
+        region_jewelry: {
+          color: '#CF3'
+        },
+        region_luxury: {
+          color: '#FC3'
+        },
+        region_cosmetic: {
+          color: '#F3F'
+        },
+        region_shoe: {
+          color: '#06F'
+        },
+        region_restaurant: {
+          color: '#CF0'
+        }
+      };
+
+    // If it's a region, display its name.
+    if ( feature.getGeometry().getType() === 'Polygon' ) {
       style = new ol.style.Style({
         stroke: new ol.style.Stroke({
-          color: '#319FD3',
+          color: stylesMap[ feature.get( 'class' ) ].color,
           width: 1
         }),
         fill: new ol.style.Fill({
-          color: 'rgba(255, 255, 255, 0.6)'
+          color: 'rgba(255, 255, 255, 1)'
         }),
         text: new ol.style.Text({
           textAlign: 'center',
           textBaseline: 'bottom',
-          stroke: new ol.style.Stroke({color: '#319FD3', width: 0.5}),
           text: getText(feature, resolution)
         })
       });
     }
-    //如果是点类型(楼梯口、出口、卫生间等),需要图标和注记
-    else if ( feature.getGeometry().getType() === 'Point' )
-    {
+    
+    // If it's a point, display its name and an icon
+    else if ( feature.getGeometry().getType() === 'Point' ) {
       style = new ol.style.Style({
         image: getIcon(feature, resolution),
         text: new ol.style.Text({
           textAlign: 'center',
           textBaseline: 'bottom',
-          stroke: new ol.style.Stroke({color: '#319FD3', width: 0.5}),
           text: getText(feature, resolution)
         })
       });
@@ -78,29 +98,29 @@ im.map = (function () {
     return [style];
   };
 
-  getText = function ( feature, resolution )
-  {
-    var text = feature.get('name');
+  getText = function ( feature, resolution ) {
+    var text = feature.get( 'name' );
     
-    //硬编码了一个比较合适的隐藏注记的分辨率
-    if (resolution > 0.4)
+    // 硬编码了一个比较合适的隐藏注记的分辨率
+    if ( resolution > 0.4 ) {
       text = '';
+    }
       
     return text;
   };
 
-  getIcon = function ( feature, resolution )
-  {
+  getIcon = function ( feature, resolution ) {
     var 
       type = feature.get('type'),
       icon = new ol.style.Icon({ 
-        src:'public/img/image' + type + '.png',
+        src: 'public/img/image' + type + '.png',
         anchor: [0, 0]
       });
     
-    //硬编码了一个比较合适的隐藏图标的分辨率
-    if (resolution > 0.2)
+    // 硬编码了一个比较合适的隐藏图标的分辨率
+    if (resolution > 0.2) {
       icon = null;
+    }
       
     return icon;
   };
@@ -164,8 +184,9 @@ im.map = (function () {
   };
 
   highlightFeature = function ( feature ) {
-    // Extent feature should not be highlighted
-    if ( feature.get( 'type' ) === 0 ) {
+
+    // Boundary feature should not be highlighted
+    if ( feature.get( 'class' ) === 'boundary' ) {
       unHighlightFeature( stateMap.highlightFeature );
       return;
     }
