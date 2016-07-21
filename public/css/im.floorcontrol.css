@@ -3,3 +3,13 @@
   bottom: 5em;
   right: .5em;
 }
+
+.floorcontrol .current-floor {
+  color: red;
+}
+
+.floorcontrol .unclickable, 
+.floorcontrol .unclickable:hover,
+.floorcontrol .unclickable:focus {
+  background-color: #fff;
+}

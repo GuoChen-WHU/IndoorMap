@@ -83,9 +83,10 @@ im.model = (function () {
     );
     stateMap.map.setView(
       new ol.View({
-        center: [12729278.3754, 3571600.1666],
-        zoom: 17,
-        minResolution: 0.07464553543474244
+        center: [ 12729367.950011384, 3571545.82468905 ],
+        zoom: 0,
+        minResolution: 0.07464553543474244,
+        maxResolution: 0.29858214173896974
       })
     );
 
@@ -98,7 +99,7 @@ im.model = (function () {
     };
 
     // Set the current floor
-    stateMap.currentFloor = 1;
+    stateMap.map.setCurrentFloor( 1 );
   };
 
   // Add methods to map model
@@ -138,15 +139,38 @@ im.model = (function () {
   };
 
   ol.Map.prototype.setCurrentFloor = function ( index ) {
-    var settableIndexes = this.getFloorIndexes(), layers;
+    var 
+      settableIndexes = this.getFloorIndexes(), 
+      formalIndex = stateMap.currentFloor,
+      layers;
 
     // The floor is in the map, then display it and hide the
-    // current.
+    // current. And publish a global event 'currentFloorChange'.
     if ( settableIndexes.indexOf( index ) !== -1 ) {
+
+      if ( formalIndex === index ) {
+        return;
+      }
+
       layers = this.getLayers();
-      layers.item( stateMap.currentFloor ).setVisible( false );
+
+      // When init set of currentfloor, formal index is still undefined
+      if ( formalIndex !== undefined ) {
+        layers.item( formalIndex ).setVisible( false );
+      }
       layers.item( index ).setVisible( true );
       stateMap.currentFloor = index;
+
+      // Need a sperate namespace so that the floorcontrol module
+      // can get the init set event as an offline event. See more
+      // at floorcontrol module.
+      im.util.gevent.create( 'toFloorControl' )
+          .trigger( 'currentFloorChange', formalIndex, index );
+
+      // The other modules don't need the init set event. Just put
+      // the floor change event in default namespace.
+      im.util.gevent
+          .trigger( 'currentFloorChange', formalIndex, index );
     }
 
     // Else, throw an error

@@ -25,8 +25,9 @@ im.popup = (function () {
     jqueryMap = {},
 
     configModule, initModule,
-    createPopup,
-    onClickCloser, onChooseFeature;
+    createPopup, hidePopup,
+    onClickCloser, onChooseFeature, onNosenseClick,
+    onCurrentFloorChange;
   //----------------- END MODULE SCOPE VARIABLES ---------------
 
   //------------------- BEGIN UTILITY METHODS ------------------
@@ -58,13 +59,21 @@ im.popup = (function () {
 
     $popupCloser.click( onClickCloser );
   };
+
+  hidePopup = function () {
+
+    // If the popup is displayed, a feature was chosen, need to publish
+    // a global event.
+    if ( stateMap.popup.getPosition() ) {
+      stateMap.popup.setPosition( undefined );
+      im.util.gevent.trigger( 'endChosen' );
+    }
+  };
   //---------------------- END DOM METHODS ---------------------
 
   //------------------- BEGIN EVENT HANDLERS -------------------
   onClickCloser = function () {
-    stateMap.popup.setPosition( undefined );
-
-    im.util.gevent.trigger( 'endChosen' );
+    hidePopup();
   };
 
   onChooseFeature = function ( coordinate, feature ) {
@@ -72,6 +81,14 @@ im.popup = (function () {
 
     jqueryMap.$popupContent.html( info );
     stateMap.popup.setPosition( coordinate );
+  };
+
+  onNosenseClick = function () {
+    hidePopup();
+  };
+
+  onCurrentFloorChange = function () {
+    hidePopup();
   };
   //-------------------- END EVENT HANDLERS --------------------
 
@@ -109,6 +126,8 @@ im.popup = (function () {
 
     // Subscribe global events
     im.util.gevent.listen( 'featureChosen', onChooseFeature );
+    im.util.gevent.listen( 'nosenseClick', onNosenseClick );
+    im.util.gevent.listen( 'currentFloorChange', onCurrentFloorChange );
 
     return true;
   };

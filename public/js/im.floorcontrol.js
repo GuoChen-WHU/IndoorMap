@@ -18,10 +18,11 @@ im.floorcontrol = (function () {
           '<button class="downstairs">↓</button>' +
         '</div>'
     },
+    jqueryMap = {},
 
     configModule, initModule,
     createControl,
-    onSwitchFloor, onUpstairs, onDownstairs;
+    onSwitchFloor, onUpstairs, onDownstairs, onCurrentFloorChange;
   //----------------- END MODULE SCOPE VARIABLES ---------------
 
   //------------------- BEGIN UTILITY METHODS ------------------
@@ -31,14 +32,19 @@ im.floorcontrol = (function () {
   //--------------------- BEGIN DOM METHODS --------------------
   createControl = function () {
     var 
-      floorControlEle, floorSwitchEle, floorControl,
+      $floorControlEle, $floorSwitchEle, floorControl,
       floorIndexes, floorName, 
       $switchButton, $upstairsButton, $downstairsButton;
 
-    floorControlEle = $( configMap.mainHTML );
-    floorSwitchEle = floorControlEle.find('.floorswitch');
-    $upstairsButton = floorControlEle.find('.upstairs');
-    $downstairsButton = floorControlEle.find('.downstairs');
+    $floorControlEle = $( configMap.mainHTML );
+    $floorSwitchEle = $floorControlEle.find('.floorswitch');
+    $upstairsButton = $floorControlEle.find('.upstairs');
+    $downstairsButton = $floorControlEle.find('.downstairs');
+
+    // Set the jqueryMap
+    jqueryMap.$upstairs    = $upstairsButton;
+    jqueryMap.$downstairs  = $downstairsButton;
+    jqueryMap.$switchesMap = {};
 
     // The default floor indexes sorted from lower floor to 
     // higher floor, reverse it to make the buttons display
@@ -49,9 +55,11 @@ im.floorcontrol = (function () {
       $switchButton = $( '<button>' + floorName + '</button>' );
       $switchButton.attr( 'value', floorIndex );
 
+      jqueryMap.$switchesMap[ floorIndex ] = $switchButton;
+
       // jQuery will set this automatically
       $switchButton.click( onSwitchFloor );
-      floorSwitchEle.append( $switchButton );
+      $floorSwitchEle.append( $switchButton );
     });
 
     $upstairsButton.click( onUpstairs );
@@ -60,7 +68,7 @@ im.floorcontrol = (function () {
     floorControl = new ol.control.Control({
 
       // .get(0) transforms the jQuery object to the DOM object
-      element: floorControlEle.get(0)
+      element: $floorControlEle.get(0)
     });
 
     configMap.mapModel.addControl( floorControl );
@@ -91,6 +99,31 @@ im.floorcontrol = (function () {
       configMap.mapModel.setCurrentFloor( currentFloor );
     } catch ( error ) {
       alert( 'No lower floor' );
+    }
+  };
+
+  // Change the floor controls styles
+  onCurrentFloorChange = function ( formalIndex, nowIndex ) {
+    var indexes = configMap.mapModel.getFloorIndexes();
+
+    // When init the map, formal index will be undefined
+    if ( formalIndex !== undefined ) {
+      jqueryMap.$switchesMap[ formalIndex ].removeClass( 'current-floor' );
+    }
+    jqueryMap.$switchesMap[ nowIndex ].addClass( 'current-floor' );
+
+    // If current is the highest floor, set the upstairs control
+    // to be unclickable.
+    if ( nowIndex === Math.max.apply( null, indexes ) ) {
+      jqueryMap.$upstairs.addClass( 'unclickable' );
+    } else {
+      jqueryMap.$upstairs.removeClass( 'unclickable' );
+    } 
+
+    if ( nowIndex === Math.min.apply( null, indexes ) ) {
+      jqueryMap.$downstairs.addClass( 'unclickable' );
+    } else {
+      jqueryMap.$downstairs.removeClass( 'unclickable' );
     }
   };
   //-------------------- END EVENT HANDLERS --------------------
@@ -126,6 +159,16 @@ im.floorcontrol = (function () {
   //
   initModule = function () {
     createControl();
+
+    // Listen global events.
+    // Model module is inited before floorcontrol, the init set of 
+    // current floor event is published before floorcontrol module
+    // is inited, so here we need offline events. In order to avoid
+    // conflict with other events on default namespace, we create 
+    // the namespace 'toFloorControl' to get the init set of current
+    // floor event as we expect.
+    im.util.gevent.create( 'toFloorControl' )
+        .listen( 'currentFloorChange', onCurrentFloorChange );
 
     return true;
   };

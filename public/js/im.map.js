@@ -24,7 +24,8 @@ im.map = (function () {
     setFloorStyle, getText, getIcon, 
     renderMap, panToCoordinate, getFeatureAtPixel, 
     highlightFeature, unHighlightFeature,
-    onClickMap, onEnterMap, onEndChosen;
+    onClickMap, onEnterMap, onEndChosen,
+    onCurrentFloorChange;
   //----------------- END MODULE SCOPE VARIABLES ---------------
 
   //------------------- BEGIN UTILITY METHODS ------------------
@@ -220,6 +221,8 @@ im.map = (function () {
       highlightFeature( feature );
       panToCoordinate( event.coordinate );
       im.util.gevent.trigger( 'featureChosen', event.coordinate, feature );
+    } else {
+      im.util.gevent.trigger( 'nosenseClick' );
     }
   };
 
@@ -232,6 +235,10 @@ im.map = (function () {
   };
 
   onEndChosen = function () {
+    unHighlightFeature( stateMap.highlightFeature );
+  };
+
+  onCurrentFloorChange = function () {
     unHighlightFeature( stateMap.highlightFeature );
   };
   //-------------------- END EVENT HANDLERS --------------------
@@ -275,6 +282,7 @@ im.map = (function () {
 //    configMap.mapModel.on( 'pointermove', onEnterMap);
 
     im.util.gevent.listen( 'endChosen', onEndChosen );
+    im.util.gevent.listen( 'currentFloorChange', onCurrentFloorChange );
   
     return true;
   };
