@@ -87,8 +87,8 @@
     {"type":"Feature","id":"point17","properties":{"name":"扶梯2", "type":1},"geometry":{"type": "Point", "coordinates": [12729379.84438433, 3571550.336056404] }},
     {"type":"Feature","id":"point18","properties":{"name":"扶梯3", "type":1},"geometry":{"type": "Point", "coordinates": [12729371.68065461, 3571527.906393318] }},
     {"type":"Feature","id":"point19","properties":{"name":"扶梯4", "type":1},"geometry":{"type": "Point", "coordinates": [12729325.12852367, 3571544.849983319] }},
-    {"type":"Feature","id":"point20","properties":{"name":"出口1", "type":2},"geometry":{"type": "Point", "coordinates": [12729299.53264323, 3571515.345698632] }},
-    {"type":"Feature","id":"point21","properties":{"name":"出口2", "type":2},"geometry":{"type": "Point", "coordinates": [12729336.56274738, 3571501.86784295] }},
-    {"type":"Feature","id":"point22","properties":{"name":"出口3", "type":2},"geometry":{"type": "Point", "coordinates": [12729372.32324796, 3571488.852085176] }}
+    {"type":"Feature","id":"point20","properties":{"name":"电梯1", "type":2},"geometry":{"type": "Point", "coordinates": [12729299.53264323, 3571515.345698632] }},
+    {"type":"Feature","id":"point21","properties":{"name":"电梯2", "type":2},"geometry":{"type": "Point", "coordinates": [12729336.56274738, 3571501.86784295] }},
+    {"type":"Feature","id":"point22","properties":{"name":"电梯3", "type":2},"geometry":{"type": "Point", "coordinates": [12729372.32324796, 3571488.852085176] }}
   ]
 }

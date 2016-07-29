@@ -14,7 +14,11 @@ im.popup = (function () {
       },
       mainHTML: 
         '<div class="im-popup">' +
-          '<a href="#" class="im-popup-closer"></a>' +
+          '<div class="im-popup-header"></div>' +
+          '<div class="im-popup-nav">' +
+            '<a href="#" class="im-popup-setting"></a>' +
+            '<a href="#" class="im-popup-closer"></a>' +
+          '</div>' +
           '<div class="im-popup-content"></div>' +
        '</div>',
       mapModel: null

@@ -1,22 +1,14 @@
-.im-navigation-button {
-  text-decoration: none;
-  display: inline-block;
-  margin: 2px;
-  background-color: #CFF;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  color: white;
+.im-navigation {
+  margin-top: 5px; 
+  text-align: center;
+  color: #000;
 }
 
-.im-navigation-button:hover {
-  text-decoration: none;
-  background-color: #0CF;
+.im-navigation span {
+  padding: 3px;
 }
 
-#im-navigation-start:after {
-  content: "设为起点";
-}
-
-#im-navigation-end:after {
-  content: "设为终点";
+.im-navigation span:hover {
+  cursor: pointer;
+  opacity: 0.7;
 }

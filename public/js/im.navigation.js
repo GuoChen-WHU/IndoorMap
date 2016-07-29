@@ -18,8 +18,10 @@ im.navigation = (function () {
       navModel: null,
       getPosition: null,
       mainHTML:
-        '<a href="#" id="im-navigation-start" class="im-navigation-button"></a>' +
-        '<a href="#" id="im-navigation-end" class="im-navigation-button"></a>'
+        '<div class="im-navigation">' + 
+          '<span id="im-navigation-start" title="从这里出发" class="octicon octicon-sign-out"></span>' +
+          '<span id="im-navigation-end" title="到这里去" class="octicon octicon-sign-in"></span>' + 
+        '</div>'
     },
     stateMap  = { 
       $container : null,
@@ -104,11 +106,9 @@ im.navigation = (function () {
     configMap.navModel.setEndPoint( endPoint );
   };
 
-  /* unused: false */
   onRouteReady = function ( route ) {
     displayRoute( route );
   };
-  /* unused: true */
   //-------------------- END EVENT HANDLERS --------------------
 
 

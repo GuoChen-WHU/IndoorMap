@@ -1,42 +1,62 @@
 ﻿.im-popup {
+	/* Set position in ol-overlay-container item, which is automatically
+	added into map canvas. So that the popup is displayed above the
+	clicked point.*/
 	position: absolute;
-	background-color: white;
-	-webkit-filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
-	filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
-	padding: 15px;
-	border-radius: 10px;
-	border: 1px solid #cccccc;
-	bottom: 12px;
 	left: -50px;
-	min-width: 180px;
+	bottom: 12px;
+
+	min-width: 100px;
+	padding: 5px;
+	border-radius: 3px;
+	background-color: #fff;
+	filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
 }
-.im-popup:after, .im-popup:before {
-	top: 100%;
-	border: solid transparent;
-	content: " ";
-	height: 0;
-	width: 0;
-	position: absolute;
-	pointer-events: none;
-}
-.im-popup:after {
-	border-top-color: white;
-	border-width: 10px;
-	left: 48px;
-	margin-left: -10px;
-}
+/* Add triangle to the popup */
 .im-popup:before {
-	border-top-color: #cccccc;
-	border-width: 11px;
-	left: 48px;
-	margin-left: -11px;
-}
-.im-popup-closer {
-	text-decoration: none;
+	content: "";
 	position: absolute;
-	top: 5px;
+	border: 12px solid;
+	border-color: #fff transparent transparent transparent;
+	top: 100%;
+	left: 40px;
+	height: 0;
+	width: 0; 
+}
+
+/* First part */
+.im-popup-header {
+	background-color: #fff;
+}
+
+/* Second part, include setting and closer */
+.im-popup-nav {
+	height: 10px;
+}
+
+.im-popup-setting {
+	position: absolute;
+	left: 8px;
+	text-decoration: none;
+	color: #000;
+}
+.im-popup-setting:after {
+	content: "#";
+}
+
+.im-popup-closer {
+	position: absolute;
 	right: 8px;
+	text-decoration: none;
+	color: #000;
 }
 .im-popup-closer:after {
 	content: "×";
+}
+
+/* Third part, the texts */
+.im-popup-content {
+	text-align: center;
+	vertical-align: center;
+	color: #000;
 }

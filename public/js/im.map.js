@@ -11,7 +11,52 @@ im.map = (function () {
       settable_map : {
         mapModel: true
       },
-      mapModel: null
+      mapModel: null,
+      styleMap: {
+
+        // Determine how the regions in the map show 
+        regionStyle: {
+          boundary: {
+            strokeColor: '#DDD2C9',
+            fillColor  : '#FFFDF8'
+          },
+          region_jewelry: {
+            strokeColor: '#FBE1E3',
+            fillColor  : '#F8F8F8'
+          },
+          region_luxury: {
+            strokeColor: '#FBE1E3',
+            fillColor  : '#FFEBED'
+          },
+          region_cosmetic: {
+            strokeColor: '#FBE1E3',
+            fillColor  : '#FFEBED'
+          },
+          region_shoe: {
+            strokeColor: '#FBE1E3',
+            fillColor  : '#FFEBED'
+          },
+          region_restaurant: {
+            strokeColor: '#9ACBF0',
+            fillColor  : '#B5DFFF'
+          }
+        },
+
+        // Determine the max resolution when the text in the map show
+        showTextResolution: 0.25,
+
+        // Determine the max resolution when the icon in the map show
+        showIconResolution: 0.25,
+
+        // Determine the min resolution when the base map is hidden
+        hideBaseResolution: 0.25,
+
+        // Highlight layer styles
+        highlightStyle: {
+          strokeColor: '#FEB29B',
+          fillColor: '#FFB69E'
+        }
+      }
     },
     stateMap  = { 
       $container : null,
@@ -23,8 +68,9 @@ im.map = (function () {
     setJqueryMap, configModule, initModule,
     setFloorStyle, getText, getIcon, 
     renderMap, panToCoordinate, getFeatureAtPixel, 
-    highlightFeature, unHighlightFeature,
-    onClickMap, onEnterMap, onEndChosen,
+    highlightFeature, unHighlightFeature, setBaseLayerVisible,
+    onClickMap, onEnterMap, onPostcompose,
+    onEndChosen,
     onCurrentFloorChange;
   //----------------- END MODULE SCOPE VARIABLES ---------------
 
@@ -44,38 +90,17 @@ im.map = (function () {
   setFloorStyle = function( feature, resolution ) {
     var 
       style,
-
-      // map of feature class and preset style
-      stylesMap = {
-        boundary: {
-          color: '#000'
-        },
-        region_jewelry: {
-          color: '#CF3'
-        },
-        region_luxury: {
-          color: '#FC3'
-        },
-        region_cosmetic: {
-          color: '#F3F'
-        },
-        region_shoe: {
-          color: '#06F'
-        },
-        region_restaurant: {
-          color: '#CF0'
-        }
-      };
+      regionStyle = configMap.styleMap.regionStyle;
 
     // If it's a region, display its name.
     if ( feature.getGeometry().getType() === 'Polygon' ) {
       style = new ol.style.Style({
         stroke: new ol.style.Stroke({
-          color: stylesMap[ feature.get( 'class' ) ].color,
+          color: regionStyle[ feature.get( 'class' ) ].strokeColor,
           width: 1
         }),
         fill: new ol.style.Fill({
-          color: 'rgba(255, 255, 255, 1)'
+          color: regionStyle[ feature.get( 'class' ) ].fillColor
         }),
         text: new ol.style.Text({
           textAlign: 'center',
@@ -102,8 +127,7 @@ im.map = (function () {
   getText = function ( feature, resolution ) {
     var text = feature.get( 'name' );
     
-    // 硬编码了一个比较合适的隐藏注记的分辨率
-    if ( resolution > 0.4 ) {
+    if ( resolution > configMap.styleMap.showTextResolution ) {
       text = '';
     }
       
@@ -114,12 +138,11 @@ im.map = (function () {
     var 
       type = feature.get('type'),
       icon = new ol.style.Icon({ 
-        src: 'public/img/image' + type + '.png',
+        src: 'public/img/icon' + type + '.png',
         anchor: [0, 0]
       });
     
-    // 硬编码了一个比较合适的隐藏图标的分辨率
-    if (resolution > 0.2) {
+    if (resolution > configMap.styleMap.showTextResolution) {
       icon = null;
     }
       
@@ -145,11 +168,10 @@ im.map = (function () {
       source: new ol.source.Vector(),
       style: new ol.style.Style({
         stroke: new ol.style.Stroke({
-          color: '#f00',
-          width: 1
+          color: configMap.styleMap.highlightStyle.strokeColor
         }),
         fill: new ol.style.Fill({
-          color: 'rgba(255,0,0,0.1)'
+          color: configMap.styleMap.highlightStyle.fillColor
         })
       })
     });
@@ -210,7 +232,11 @@ im.map = (function () {
       stateMap.highlightFeature = null;
     }
   };
-  // End DOM method /renderMap/
+
+  setBaseLayerVisible = function ( visible ) {
+    configMap.mapModel.getLayers().item( 0 ).setVisible( visible );
+  };
+  // End DOM method /unHighlightFeature/
   //---------------------- END DOM METHODS ---------------------
 
   //------------------- BEGIN EVENT HANDLERS -------------------
@@ -231,6 +257,16 @@ im.map = (function () {
 
     if ( feature ) {
       highlightFeature( feature );
+    }
+  };
+
+  onPostcompose = function () {
+    var resolution = configMap.mapModel.getView().getResolution();
+
+    if ( resolution < configMap.styleMap.hideBaseResolution ) {
+      setBaseLayerVisible( false );
+    } else {
+      setBaseLayerVisible( true );
     }
   };
 
@@ -280,6 +316,7 @@ im.map = (function () {
     // Add events listener for map
     configMap.mapModel.on( 'click', onClickMap );
 //    configMap.mapModel.on( 'pointermove', onEnterMap);
+    configMap.mapModel.on( 'postcompose', onPostcompose);
 
     im.util.gevent.listen( 'endChosen', onEndChosen );
     im.util.gevent.listen( 'currentFloorChange', onCurrentFloorChange );
