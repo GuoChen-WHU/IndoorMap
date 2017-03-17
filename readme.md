@@ -1,17 +1,15 @@
-#Readme
-
 This is a simple indoor map application built with OpenLayers.
 
-##Functions
+## Functions
 
--Switch between floors 
--Choose features and display their information
--Basic navigation
+- Switch between floors 
+- Choose features and display their information
+- Basic navigation
 
-##How to use?
+## Install
 
-Run `npm install` to intall all dependencies.
-Then the debug vision is available, put all files on a server and visit 
-index_debug.html.
-Run `grunt build` to build the release vision.
-Then the release vision is available by visit index.html. It responses faster due to the compressed .js and .css files.
+1. `git clone https://github.com/GuoChen-WHU/IndoorMap.git`
+2. `npm install --production`
+3. `cd php && composer install`
+4. `grunt build`
+5. Make sure all files are served from a server and visit index.html.

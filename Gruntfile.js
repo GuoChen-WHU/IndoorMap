@@ -46,28 +46,15 @@ module.exports = function (grunt) {
       }
     },
 
-    sprite: {
-      icons: {
-        src: 'public/img/icons/*.png',
-        destImg: 'build/img/icons.png',
-        destCSS: 'build/css/icons.css'
-      }
-    },
-
     clean: {
       js: 'build/js',
       css: 'build/css'
-      //less: 'public/**/*.css'
     },
 
     watch: {
       js: {
         tasks: ['jshint:client'],
         files: ['public/js/**/*.js']
-      },
-      css: {
-        tasks: [],
-        files: ['public/css/**/*.css']
       }
     }
 
@@ -76,11 +63,10 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks( 'grunt-contrib-jshint' );
   grunt.loadNpmTasks( 'grunt-contrib-concat' );
   grunt.loadNpmTasks( 'grunt-contrib-uglify' );
-  grunt.loadNpmTasks( 'grunt-spritesmith' );
   grunt.loadNpmTasks( 'grunt-contrib-clean' );
   grunt.loadNpmTasks( 'grunt-contrib-watch' );
   grunt.loadNpmTasks( 'grunt-contrib-cssmin' );
 
   grunt.registerTask( 'debug', 'watch' );
-  grunt.registerTask( 'release', [ 'clean', 'concat', 'uglify', 'cssmin' ] );
+  grunt.registerTask( 'build', [ 'clean', 'concat', 'uglify', 'cssmin' ] );
 };

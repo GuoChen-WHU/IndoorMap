@@ -1,2 +1,4 @@
-node_modules/
-backup/
+node_modules
+backup
+build
+php/vendor
