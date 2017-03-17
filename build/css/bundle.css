@@ -1,0 +1,159 @@
+/*
+ * im.css
+ * Root namespace styles
+*/
+
+/** Begin reset */
+* {
+  margin  : 0;
+  padding : 0;
+  box-sizing : border-box;
+
+  -moz-user-select: none;
+  user-select: none;
+}
+
+input, textarea {
+  user-select: text;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  margin-bottom : 10px;
+}
+
+ol, ul, dl {
+  list-style-position : inside;
+}
+/** End reset */
+
+/** Begin standrad selectors */
+body {
+  font : 13px 'Trebuchet MS', Verdana, Helvetica, Arial, sans-serif;
+  color            : #fff;
+  background-color : #B6B6B6;
+}
+
+a { 
+  text-decoration : none; 
+}
+a:hover {
+  text-decoration: underline;
+}
+/** End standard selectors */
+
+/** Begin im namespace selectors */
+#im {
+  position: absolute;
+  top: .5em;
+  left: .5em;
+  bottom: .5em;
+  right: .5em;
+
+  min-height: 500px;
+  min-width: 500px;
+  overflow: hidden;
+
+  border-radius: 8px;
+  background-color: #fff;
+}
+/** End im namespace selectors */
+
+.floorcontrol {
+  position: absolute;
+  bottom: 5em;
+  right: .5em;
+}
+
+.floorcontrol .current-floor {
+  color: red;
+}
+
+.floorcontrol .unclickable, 
+.floorcontrol .unclickable:hover,
+.floorcontrol .unclickable:focus {
+  background-color: #fff;
+}
+.im-navigation {
+  margin-top: 5px; 
+  text-align: center;
+  color: #000;
+}
+
+.im-navigation span {
+  padding: 3px;
+}
+
+.im-navigation span:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+.im-popup {
+	/* Set position in ol-overlay-container item, which is automatically
+	added into map canvas. So that the popup is displayed above the
+	clicked point.*/
+	position: absolute;
+	left: -50px;
+	bottom: 12px;
+
+	min-width: 100px;
+	padding: 5px;
+	border-radius: 3px;
+	background-color: #fff;
+	filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+}
+/* Add triangle to the popup */
+.im-popup:before {
+	content: "";
+	position: absolute;
+	border: 12px solid;
+	border-color: #fff transparent transparent transparent;
+	top: 100%;
+	left: 40px;
+	height: 0;
+	width: 0; 
+}
+
+/* First part */
+.im-popup-header {
+	background-color: #fff;
+}
+
+/* Second part, include setting and closer */
+.im-popup-nav {
+	height: 10px;
+}
+
+.im-popup-setting {
+	position: absolute;
+	left: 8px;
+	text-decoration: none;
+	color: #000;
+}
+.im-popup-setting:after {
+	content: "#";
+}
+
+.im-popup-closer {
+	position: absolute;
+	right: 8px;
+	text-decoration: none;
+	color: #000;
+}
+.im-popup-closer:after {
+	content: "×";
+}
+
+/* Third part, the texts */
+.im-popup-content {
+	text-align: center;
+	vertical-align: center;
+	color: #000;
+}
+/*
+ * im.css
+ * Shell module styles
+*/
+
+#map {
+  height: 100%;
+}
